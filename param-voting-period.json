@@ -1,0 +1,12 @@
+{
+  "title": "Gov param change: set voting_period to 7 days",
+  "description": "testing, testing, 1, 2, 3",
+  "changes": [
+    {
+      "subspace": "staking",
+      "key": "VotingPeriod",
+      "value": 604800000000000
+    }
+  ],
+  "deposit": "10000000stake"
+}
