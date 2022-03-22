@@ -25,30 +25,36 @@ sed -i 's/"voting_period": "60s"/\"voting_period": "20s"/g' $APP_HOME/config/gen
 
 ### Prepare genesis accounts and validators
 
-$APP keys add w1 --keyring-backend test --home $APP_HOME
-$APP keys add w2 --keyring-backend test --home $APP_HOME
-$APP keys add w3 --keyring-backend test --home $APP_HOME
-$APP keys add faucet --keyring-backend test --home $APP_HOME
-$APP keys add validator --keyring-backend test --home $APP_HOME
+$APP keys add w1        --home $APP_HOME
+$APP keys add w2        --home $APP_HOME
+$APP keys add w3        --home $APP_HOME
+$APP keys add faucet    --home $APP_HOME
+$APP keys add validator --home $APP_HOME
+
+export wallet1=$($APP keys show -a w1)
+export wallet2=$($APP keys show -a w2)
+export wallet3=$($APP keys show -a w3)
+export validator=$($APP keys show -a validator)
 
 CURRENT_TIME_SECONDS=$( date +%s )
 VESTING_STARTTIME=$(( $CURRENT_TIME_SECONDS + 10 ))
 VESTING_ENDTIME=$(( $CURRENT_TIME_SECONDS + 10000 ))
 
-$APP add-genesis-account w1 --keyring-backend test 1000000000000$DENOM --home $APP_HOME
-$APP add-genesis-account validator --keyring-backend test 1000000000000$DENOM --home $APP_HOME
-$APP add-genesis-account faucet    --keyring-backend test 1000000000000$DENOM --home $APP_HOME
+$APP add-genesis-account $wallet1     1000000000000$DENOM --home $APP_HOME
+$APP add-genesis-account $validator   1000000000000$DENOM --home $APP_HOME
+$APP add-genesis-account $($APP keys show -a faucet)     1000000000000$DENOM --home $APP_HOME
 
-$APP add-genesis-account w2 --keyring-backend test 1000000000000$DENOM --vesting-amount 100000000000$DENOM --vesting-start-time $VESTING_STARTTIME --vesting-end-time $VESTING_ENDTIME --home $APP_HOME
-$APP add-genesis-account w3 --keyring-backend test 1000000000000$DENOM --vesting-amount 500000000000$DENOM --vesting-start-time $VESTING_STARTTIME --vesting-end-time $VESTING_ENDTIME --home $APP_HOME
+$APP add-genesis-account $wallet2  1000000000000$DENOM --vesting-amount 100000000000$DENOM --vesting-start-time $VESTING_STARTTIME --vesting-end-time $VESTING_ENDTIME --home $APP_HOME
+$APP add-genesis-account $wallet3  1000000000000$DENOM --vesting-amount 500000000000$DENOM --vesting-start-time $VESTING_STARTTIME --vesting-end-time $VESTING_ENDTIME --home $APP_HOME
 
-$APP gentx validator 90000000000$DENOM --chain-id $CHAINID  --keyring-backend test --home $APP_HOME
+$APP gentx validator 90000000000$DENOM --chain-id $CHAINID  --home $APP_HOME
 # $APP gentx validator 10000000000$DENOM ....
 $APP collect-gentxs --home $APP_HOME
 
 
 ##### START
 
+# NOTE: in 0.46+ chains, you need to add  --mode validator
 echo "* starting the chain in the background*"
 $APP start --home $APP_HOME  --log_level warn &
 
@@ -56,10 +62,10 @@ $APP start --home $APP_HOME  --log_level warn &
 ##### Set delegations
 sleep 2
 echo "* setting delegation *"
-VAL_OPR_ADDRESS=$($APP keys show validator -a --bech val --keyring-backend test --home $APP_HOME)
+VAL_OPR_ADDRESS=$($APP keys show validator -a --bech val --home $APP_HOME)
 
-$APP tx staking delegate $VAL_OPR_ADDRESS 900000000000$DENOM  --from w1 --keyring-backend test --chain-id $CHAINID  -y --home $APP_HOME --fees 5000$DENOM
-$APP tx staking delegate $VAL_OPR_ADDRESS 100000000000$DENOM  --from w2 --keyring-backend test --chain-id $CHAINID --node $NODE -y --home $APP_HOME --fees 5000$DENOM
+$APP tx staking delegate $VAL_OPR_ADDRESS 900000000000$DENOM  --from w1 --chain-id $CHAINID  -y --home $APP_HOME --fees 5000$DENOM
+$APP tx staking delegate $VAL_OPR_ADDRESS 100000000000$DENOM  --from w2 --chain-id $CHAINID  -y --home $APP_HOME --fees 5000$DENOM
 
 ## In each command you can
 ## * specify node address:

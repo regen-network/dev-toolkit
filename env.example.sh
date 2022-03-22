@@ -11,3 +11,6 @@ export APP_HOME=~/.regen
 ## You can set a default keyring backend. Use your binary name instead of SIMD prefix
 ## possible values: pass, test
 # export SIMD_KEYRING_BACKEND=test
+
+## otherwise, if you want to use different keyring backend, you will need to specify:
+# --keyring-backend test
