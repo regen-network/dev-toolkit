@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 
+APP_LOG_LEVEL=${APP_LOG_LEVEL:-"warn"}
+
 #### Cleanup
 
 rm -rf $APP_HOME
@@ -56,7 +58,7 @@ $APP collect-gentxs --home $APP_HOME
 
 # NOTE: in 0.46+ chains, you need to add  --mode validator
 echo "* starting the chain in the background*"
-$APP start --home $APP_HOME  --log_level warn &
+$APP start --home $APP_HOME  --log_level $APP_LOG_LEVEL &
 
 
 ##### Set delegations

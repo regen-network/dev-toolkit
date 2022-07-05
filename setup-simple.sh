@@ -2,6 +2,10 @@
 
 # This script starts a simple network with only one genesis account who is also a validator
 
+APP_LOG_LEVEL=${APP_LOG_LEVEL:-"warn"}
+
+####
+
 rm -rf $APP_HOME
 
 coins="10000000000$DENOM,100000000000samoleans"
@@ -20,4 +24,4 @@ $APP gentx validator $coinsV --chain-id $CHAINID
 $APP collect-gentxs
 
 # NOTE: in 0.46+ chains, you need to add  --mode validator
-$APP start
+$APP start --log_level $APP_LOG_LEVEL --mode validator
