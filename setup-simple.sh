@@ -2,7 +2,7 @@
 
 # This script starts a simple network with only one genesis account who is also a validator
 
-APP_LOG_LEVEL=${APP_LOG_LEVEL:-"warn"}
+APP_LOG_LEVEL=${APP_LOG_LEVEL:-"error"}
 
 ####
 
@@ -14,6 +14,7 @@ coinsV="5000000000$DENOM"
 
 # not needed - was generated using ./build/simd testnet
 $APP keys add validator
+$APP keys add user
 
 $APP init $CHAINID --chain-id $CHAINID
 # change the native coin
@@ -23,5 +24,5 @@ $APP add-genesis-account  $($APP keys show -a validator)  $coins
 $APP gentx validator $coinsV --chain-id $CHAINID
 $APP collect-gentxs
 
-# NOTE: in 0.46+ chains, you need to add  --mode validator
-$APP start --log_level $APP_LOG_LEVEL --mode validator
+# --api.enable=true ---> enable REST
+$APP start --log_level $APP_LOG_LEVEL --api.enable=true

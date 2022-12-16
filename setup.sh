@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-APP_LOG_LEVEL=${APP_LOG_LEVEL:-"warn"}
+APP_LOG_LEVEL=${APP_LOG_LEVEL:-"error"}
 
 #### Cleanup
 
@@ -56,9 +56,9 @@ $APP collect-gentxs --home $APP_HOME
 
 ##### START
 
-# NOTE: in 0.46+ chains, you need to add  --mode validator
 echo "* starting the chain in the background*"
-$APP start --home $APP_HOME  --log_level $APP_LOG_LEVEL &
+# --api.enable=true ---> enable REST
+$APP start --home $APP_HOME  --log_level $APP_LOG_LEVEL --api.enable=true &
 
 
 ##### Set delegations

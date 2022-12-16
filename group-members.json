@@ -1,0 +1,14 @@
+{
+  "members": [
+    {
+      "address": "cosmos1f8wz9wmq945aka859df7302uu4sewp93tvcw7f",
+      "weight": "2",
+      "metadata": "validator"
+    },
+    {
+      "address": "cosmos19ga32nmvfxn9xh3lw7w5nj6z5u6mrs8ekw6ykg",
+      "weight": "1",
+      "metadata": "user"
+    }
+  ]
+}

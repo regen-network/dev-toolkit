@@ -1,0 +1,16 @@
+{
+  "messages": [
+    {
+      "@type": "/cosmos.upgrade.v1beta1.MsgSoftwareUpgrade",
+      "authority": "cosmos10d07y265gmmuvt4z0w9aw880jnsr700j6zn9kn",
+      "plan": {
+        "name": "v3.0.0",
+        "height": "53292",
+        "info": ""
+      }
+    }
+  ],
+  "title": "chain upgarde",
+  "descripton": "upgrade description",
+  "deposit": "1000000000stake"
+}
